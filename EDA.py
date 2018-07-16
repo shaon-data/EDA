@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy import stats
 from sklearn.preprocessing import StandardScaler
 
 class ValueKeeper(object):
@@ -59,17 +60,25 @@ def r_squared(y,y_estimated):
     return 1 - (SEy_estimated/SEy_mean)
     ## coefficient of determination  or R^2, better than least square
 
-def coefficent_of_skewness(data):
+
+def coefficent_of_skewness(data,i=0):
+    
+    
     ## if mode is known or easier to determine or accurate, use it, else use median
-    if mode != []:
-        coef_skewness = ( mean - mode ) / std
-    else if median != []:
-        coef_skewness = ( 3 * ( mean - median ) ) / std
+    ##    coef_skewness = ( mean - mode ) / std
+    ##   coef_skewness = ( 3 * ( mean - median ) ) / std
     ## positively skewed
     ## negatively skewed
     ## symetrically skewed or ideal normal distribution
         
-    return coef_skewness
+    
+    
+    mode,mode_count = stats.mode(data)
+    print("Mode: ", mode)
+
+    print("Mean: \n" , np.mean(data,axis=0))
+    print("Median: ",np.median(data,axis=0))
+
 '''
 Another Less convinient methoood
 def r_squared2(y,y_estimated,c=0):
@@ -348,6 +357,8 @@ def good_fit_equation_lr_test():
         
 
     plt.show()
+
+## if (mean == mode and mode == median)
 
 '''
 x = [43,21,25,42,57,59,247]
