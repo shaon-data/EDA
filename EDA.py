@@ -59,6 +59,17 @@ def r_squared(y,y_estimated):
     return 1 - (SEy_estimated/SEy_mean)
     ## coefficient of determination  or R^2, better than least square
 
+def coefficent_of_skewness(data):
+    ## if mode is known or easier to determine or accurate, use it, else use median
+    if mode != []:
+        coef_skewness = ( mean - mode ) / std
+    else if median != []:
+        coef_skewness = ( 3 * ( mean - median ) ) / std
+    ## positively skewed
+    ## negatively skewed
+    ## symetrically skewed or ideal normal distribution
+        
+    return coef_skewness
 '''
 Another Less convinient methoood
 def r_squared2(y,y_estimated,c=0):
@@ -168,6 +179,21 @@ def slope_list_curve( X, Y ):
             M.append( dy / dx )
         return M
 
+def corelation_matrix(data):
+    arr = []
+    for yI in data.columns:
+        
+        arr.append([pearson_r(data[xI],data[yI]) for xI in data.columns])
+
+    return arr
+
+def corelation_matrix2(data):
+    arr = []
+    for yI in range(data.shape[1]):
+        arr.append([pearson_r(data[:,xI],data[:,yI]) for xI in range(data.shape[1]) ])        
+    
+    return arr
+
 def scatter_matrix_graph_fit(data,s=8):
     
     measurement_number = data.shape[1]
@@ -175,12 +201,12 @@ def scatter_matrix_graph_fit(data,s=8):
     fig = plt.figure("Scatter Matrix",figsize = (measurement_number,measurement_number))
     plt.axes(frameon=False)
     
-    xS = 1
+    
     for yI in data.columns:
         j=0
-        yS = 1
+        
         for xI in data.columns:
-            yS = 1
+            
             n+=1
             ax = plt.subplot(measurement_number,measurement_number,n)
             ax.scatter(data[xI],data[yI],c='mediumseagreen',s=s)
@@ -202,15 +228,15 @@ def scatter_matrix_graph_fit(data,s=8):
                 ax.set_xlabel(xI)
             
             j+=1
-            yS+=1
-        xS+=1
+            
+        
     
     plt.subplots_adjust(wspace=0.02, hspace=0.08)
     plt.show()
     
     # plt.subplot(441, facecolor='y')
 
-    
+    pearson_r(data[xI],data[yI])
 def standard_deviation_residuals(y,y_estimated):
     ## Standard deviation of residuals or Root mean sqaure error
     ## Lower the number is, the better the fit of the model
