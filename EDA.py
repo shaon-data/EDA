@@ -247,9 +247,9 @@ def scatter_matrix_graph_fit(data,s=8):
     ## or
     ##    import seaborn as sns
     ##    sns.set(style="ticks")
-    ##    sns.pairplot(data, hue="class")
+    ##    sns.pairplot(data, hue="class", vars=["sepal_length", "sepal_width", "petal_length", "petal_width"])
     ##    plt.show()
-    ##    Eliminate less releavent element and show multivariate corelation and class in graph and probability distribution cool tool :)
+    ##    show corelation between every Two measurement and along with target class in graph and probability distribution of every measurement cool tool :)
     
     measurement_number = data.shape[1]
     n=0
