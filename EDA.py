@@ -61,23 +61,57 @@ def r_squared(y,y_estimated):
     ## coefficient of determination  or R^2, better than least square
 
 
-def coefficent_of_skewness(data,i=0):
-    
-    
+def coefficent_of_skewness(data):
     ## if mode is known or easier to determine or accurate, use it, else use median
     ##    coef_skewness = ( mean - mode ) / std
     ##   coef_skewness = ( 3 * ( mean - median ) ) / std
-    ## positively skewed
-    ## negatively skewed
-    ## symetrically skewed or ideal normal distribution
-        
-    
+    ## positively skewed if coef_skewness = + positive number or mean > median or mean > mode
+    ## negatively skewed if coef_skewness = - negative number and mean < median or mean < mode
+    ## symetrically skewed or ideal normal distribution if coef_skewness = 0 or mean = mode = median
     
     mode,mode_count = stats.mode(data)
     print("Mode: ", mode)
 
     print("Mean: \n" , np.mean(data,axis=0))
     print("Median: ",np.median(data,axis=0))
+    print("Coefficient of skewness = ",stats.skew(data,axis=0,bias = True))
+    ## If False, then the calculations are corrected for statistical bias.
+
+def eda(data):
+    
+    data = data.copy()
+    ## data.index += 1
+    print("|-------- Dataset information --------|")
+    shape = data.shape
+    print("Shape "+str(shape))
+    print("Data type: \n",data.dtypes)
+    
+    def string_column_count(x):
+        return len(x) - sum([ str(c).lstrip("-").isdigit() for c in x])
+        
+    print("String column count:\n", data.apply( lambda x: string_column_count(x) ,axis = 0))
+
+
+    ## Fill not available value from the skewness probability distribution and mode ,median, mean and skewness and kurtosis and chi square test
+    ## coefficent_of_skewness(data)
+    mode,mode_count = stats.mode(data)
+    print("Mode: ", mode)
+    print("Mean: \n" , np.mean(data,axis=0))
+    print("Median: ",np.median(data,axis=0))
+    print("Coefficient of skewness = ",stats.skew(data,axis=0,bias = True))
+    ## If False, then the calculations are corrected for statistical bias.
+    
+    # ?? Pearson Chi square test for data comparing to statistical distribution fit
+
+    
+    ## comparing fit and corelaton among properties
+    #scatter_matrix_graph_fit(data.ix[:,33:])
+    
+    ## Standard scalling may not work for classifier data as all of them almost class value int
+    ## dat = StandardScaler().fit_transform(data)
+
+    print("\n\n\n Corelation Matrix=\n")
+    print(corelation_matrix(data.ix[:,1:]))
 
 '''
 Another Less convinient methoood
