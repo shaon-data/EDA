@@ -248,6 +248,7 @@ def scatter_matrix_graph_fit(data,s=8):
     ##    import seaborn as sns
     ##    sns.set(style="ticks")
     ##    sns.pairplot(data, hue="class", vars=["sepal_length", "sepal_width", "petal_length", "petal_width"])
+    ##    to put regression line pass argument, kind = "reg" or "scatter" by default scatter is present
     ##    plt.show()
     ##    show corelation between every Two measurement and along with target class in graph and probability distribution of every measurement cool tool :)
     
