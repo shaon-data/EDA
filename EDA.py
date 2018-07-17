@@ -238,7 +238,15 @@ def corelation_matrix2(data):
     return arr
 
 def scatter_matrix_graph_fit(data,s=8):
-    
+    ## Alternative without regression line
+    ## from pandas.tools.plotting import scatter_matrix
+    ## scatter_matrix(data, alpha=0.2, figsize=(6, 6), diagonal='kde')
+    ## Give 1 vs 1 scatter matrix
+    ## or
+    ##    import seaborn as sns
+    ##    sns.set(style="ticks")
+    ##    sns.pairplot(data, hue="class")
+    ##    Eliminate less releavent element and show multivariate corelation and class in graph and probability distribution cool tool :)
     measurement_number = data.shape[1]
     n=0
     fig = plt.figure("Scatter Matrix",figsize = (measurement_number,measurement_number))
