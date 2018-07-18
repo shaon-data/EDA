@@ -369,14 +369,24 @@ def standard_deviation_residuals(y,y_estimated):
     ## Average distance to the mean
     n = len(y)
     return ( least_square(y,y_estimated) / (n - 1) )**(1/2)
-    
+
 
 def bivariate_regression_line_coefficients(x,y):
+    ## np.polyfit(x,y,1)
+    '''
     x_mean = meann(x)
     y_mean = meann(y)
     n = len(x)
     x, y = np.array(x), np.array(y)
     b1 = ( sum( (x - x_mean) * (y - y_mean) ) ) / (sum( (x - x_mean)**2 ))
+    b0 = y_mean - b1*x_mean
+    ## y_estimated = b0 + b1*x
+    return b0,b1
+    '''
+    ## give larger value
+    x_mean = meann(x)
+    y_mean = meann(y)
+    b1 = covarience(x,y) / variance(x)
     b0 = y_mean - b1*x_mean
     ## y_estimated = b0 + b1*x
     return b0,b1
