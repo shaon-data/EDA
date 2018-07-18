@@ -210,17 +210,20 @@ def covarience(x,y):
     n = len(x)
     cov = sum((x - Mx)*(y - My)) / ( n - 1 )
     return cov
-
-def sample_mean(x):
-    return sum(x) / ( len(x) - 1 )
-
+def root(x):
+    return x**(1/2)
 def pearson_r(x,y):
     # correlation
+    ## cov = r * std(x) * std(y)
+    ## cov = r * root(var(x)*var(y))
+
     x = np.array(x)
     y = np.array(y)
     Mx = meann(x)
     My = meann(y)
-    pearson_r = sum( (x-Mx) * (y - My) ) / ( sum( (x - Mx)**2 ) * sum( (y - My )**2 ) )**(1/2)
+    pearson_r = sum( (x-Mx) * (y - My) ) / root( sum( (x - Mx)**2 ) * sum( (y - My )**2 ) )
+    
+    
     return pearson_r
 
 def standard_deviation(x):
