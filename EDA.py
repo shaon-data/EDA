@@ -194,9 +194,21 @@ def variance(x):
     return S_squared
 
 def covarience(x,y):
+    '''
     STDx = standard_deviation(x)
     STDy = standard_deviation(y)
     cov = pearson_r(x,y) * STDx * STDy
+    '''
+    ## More accuarate below
+    #parameters
+    x = np.array(x)
+    y = np.array(y)
+    #Means
+    Mx = np.mean(x,axis=0)
+    My = np.mean(y,axis=0)
+    #Sample size
+    n = len(x)
+    cov = sum((x - Mx)*(y - My)) / ( n - 1 )
     return cov
 
 def sample_mean(x):
