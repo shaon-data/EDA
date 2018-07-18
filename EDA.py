@@ -60,7 +60,28 @@ def r_squared(y,y_estimated):
     return 1 - (SEy_estimated/SEy_mean)
     ## coefficient of determination  or R^2, better than least square
 
+def rth_moment(Xi,r):
+    X_mean = meann(Xi)
+    Xi = np.array(Xi)
+    return ( sum(Xi - X_mean)^r ) / n
 
+def coefficent_of_kurtosis(data):
+    kurt = []
+    for c in data.columns:
+        Xi = data[c]
+        m4 = rth_moment(Xi,4)
+        a4 = m4/(standard_deviation(Xi)^4)
+        kurt.append(Xi)
+    kurt = np.array(kurt)
+    return kurt
+
+def frequency(data):
+    return scipy.stats.itemfreq(data)
+    ## np.bincount(data)
+    
+
+
+    
 def coefficent_of_skewness(data):
     ## if mode is known or easier to determine or accurate, use it, else use median
     ##    coef_skewness = ( mean - mode ) / std
@@ -68,10 +89,15 @@ def coefficent_of_skewness(data):
     ## positively skewed if coef_skewness = + positive number or mean > median or mean > mode
     ## negatively skewed if coef_skewness = - negative number and mean < median or mean < mode
     ## symetrically skewed or ideal normal distribution if coef_skewness = 0 or mean = mode = median
-    
+
+    ##    mean = np.mean(data,axis=0)
+    ##    median = np.median(data,axis=0)
+    ##    std = np.std(data,axis=0)
+    ##    coef_skewness = (3*(mean - median)) / std
+    ##    return coef_skewness
+
     mode,mode_count = stats.mode(data)
     print("Mode: ", mode)
-
     print("Mean: \n" , np.mean(data,axis=0))
     print("Median: ",np.median(data,axis=0))
     print("Coefficient of skewness = ",stats.skew(data,axis=0,bias = True))
@@ -105,7 +131,21 @@ def eda(data):
 
     
     ## comparing fit and corelaton among properties
-    #scatter_matrix_graph_fit(data.ix[:,33:])
+    scatter_matrix_graph_fit(data.ix[:,33:])
+
+    correlations = data.corr()
+    # plot correlation matrix
+    fig = plt.figure('Correlation Hit map')
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(correlations, vmin=-1, vmax=1)
+    fig.colorbar(cax)
+    ticks = np.arange(0,len(data.columns),1)
+    ax.set_xticks(ticks)
+    ax.set_yticks(ticks)
+    ax.set_xticklabels(data.columns)
+    ax.set_yticklabels(data.columns)
+    plt.show()
+   
     
     ## Standard scalling may not work for classifier data as all of them almost class value int
     ## dat = StandardScaler().fit_transform(data)
@@ -152,7 +192,18 @@ def variance(x):
     ## SSD = Sample Standard deviation = average distance from mean
     S_squared = sum( (xi - x_mean) ** 2 ) / (n - 1)
     return S_squared
+
+def covarience(x,y):
+    STDx = standard_deviation(x)
+    STDy = standard_deviation(y)
+    cov = pearson_r(x,y) * STDx * STDy
+    return cov
+
+def sample_mean(x):
+    return sum(x) / ( len(x) - 1 )
+
 def pearson_r(x,y):
+    # correlation
     x = np.array(x)
     y = np.array(y)
     Mx = meann(x)
@@ -228,7 +279,7 @@ def corelation_matrix(data):
         
         arr.append([pearson_r(data[xI],data[yI]) for xI in data.columns])
 
-    return arr
+    return np.array(arr)
 
 def corelation_matrix2(data):
     arr = []
@@ -251,10 +302,14 @@ def scatter_matrix_graph_fit(data,s=8):
     ##    to put regression line pass argument, kind = "reg" or "scatter" by default scatter is present
     ##    plt.show()
     ##    show corelation between every Two measurement and along with target class in graph and probability distribution of every measurement cool tool :)
+    ##    
+    ##    plt.violinplot(data["sepal_length"], vert=False)
+    ##    plt.show()
+
     
     measurement_number = data.shape[1]
     n=0
-    fig = plt.figure("Scatter Matrix",figsize = (measurement_number,measurement_number))
+    fig = plt.figure("Correlation Scatter Matrix",figsize = (measurement_number,measurement_number))
     plt.axes(frameon=False)
     
     
